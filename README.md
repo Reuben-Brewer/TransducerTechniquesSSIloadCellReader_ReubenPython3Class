@@ -34,30 +34,54 @@ Raspberry Pi Buster
 Reader settings (consults SSI-Manual.pdf and SSI-SerialManual.pdf for more information):
 
 SETuP: 0 _ _ 9
+
 ConFG: 4 0 0 0 0
+
 FiLtr: 1 1 1 0 0
+
 dEC.Pt: d d d d d .
 triG: 3 0
+
 ALSEt: 1 1 0 4 0
+
 tArE: 0 0 _ 0
+
 SEr 1: 1 7 0
+
 SEr 2: 0 0 1 _
+
 SEr 3: 0 6
+
 CALrt: (specific to calibration dates of reader and sensor)
+
 LoG: 3 3 0 0 3
+
 ALErt: 0 0 0 0
+
 tirre: (specific to reader/sensor)
+
 dAtE: (specific to user-ser date)
+
 CALd 1: (specific to reader)
+
 SErno: (specific to reader)
+
 UnitS: 9 (specific to whatever units have been set on the LCD)
+
 CALd 5:  (specific to read/ersensor)
+
 CAL 1nL:  (specific to reader)
+
 CALPEr: 365
+
 RR-1d: brd9-A
+
 Loc 1: 1 0 0 1 1
+
 Loc 2: 0 0 0 0
+
 Loc 3: 0 0 0 0
+
 Loc 4: 0 0 0 0 0
 
 ###########################
