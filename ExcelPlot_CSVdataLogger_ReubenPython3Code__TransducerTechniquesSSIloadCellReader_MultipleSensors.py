@@ -27,35 +27,22 @@ import pandas
 #########################################################
 
 #########################################################
-#MUST USE VERSION 224 (https://stackoverflow.com/questions/58612306/how-to-fix-importerror-dll-load-failed-while-importing-win32api/60611014#60611014)
-#Latest version is 228 but gives us a DLL error.
-#"pip install pywin32==224"
 import win32com.client #for commanding Excel as a program
 #########################################################
 
 #########################################################
 #For writing excel files.
-#"pip install xlwt==1.2.0"
 import xlwt
 #########################################################
 
 #########################################################
 #For copying excel file when we create the excel file. HAVE TO INSTALL SEPARATELY FROM XLWT/XLRD.
-#"pip install xlutils==1.7.1"
 from xlutils.copy import copy
-#########################################################
-
-#########################################################
-#For reading excel files.
-#"pip install xlrd==1.0.0"
-import xlrd
 #########################################################
 
 #########################################################
 #http://xlsxwriter.readthedocs.io/chart.html FOR MAKING CHARTS
 #XlsxWriter can only create new files. It cannot read or modify existing files. Can only handle xlsx files, not xls
-#"pip install xlsxwriter==0.9.6" verified working, but doesn't support setting the chart size.
-#"pip install xlsxwriter==1.3.3" INSTALLED 08/28/20 (had to manually delete older version from /lib/site-packages because it was distutils-managed. Works overall, but the function ".set_size" doesn't do anything.
 import xlsxwriter
 #########################################################
 
@@ -68,37 +55,38 @@ def OpenXLSsndCopyDataToLists(FileName_full_path):
     try:
 
         ##########################################################################################################
-        xlrd_workbook = xlrd.open_workbook(FileName_full_path)
+        workbook = pandas.ExcelFile(FileName_full_path)
 
-        sheet_names = xlrd_workbook.sheet_names()
-        #print('Sheet Names', sheet_names)
+        sheet = workbook.parse("Sheet1")
 
-        xlrd_sheet = xlrd_workbook.sheet_by_name(sheet_names[0])
-        #print(xlrd_sheet.name)
+        NumberOfRows = sheet.shape[0]
+        #print("NumberOfRows: " + str(NumberOfRows))
 
-        ##########################################################################################################
+        NumberOfColumns = sheet.shape[1]
+        #print("NumberOfColumns: " + str(NumberOfColumns))
 
-        ##########################################################################################################
-        header_variable_name_list = []
-        ListOfColumnDataLists = []
-        for column in range(0, xlrd_sheet.ncols):  # Iterate through columns
-            cell_value = xlrd_sheet.cell_value(0, column)  # Get cell object by row, col
-            cell_value_as_string = str(cell_value).strip()
-            header_variable_name_list.append(cell_value_as_string)
-            ListOfColumnDataLists.append([])
+        header_variable_name_list = sheet.columns.values.tolist()
         print("Detected the following variable names: " + str(header_variable_name_list))
-        #print(ListOfColumnDataLists)
         ##########################################################################################################
 
         ##########################################################################################################
-        for row in range(1, xlrd_sheet.nrows): # Iterate through rows starting at index 1 so that we don't capture the header
-            for column in range(0, xlrd_sheet.ncols):  # Iterate through columns
-                cell_value = xlrd_sheet.cell_value(row, column)  # Get cell object by row, col
+        #DataFrame.at, Access a single value for a row/column pair by label.
+        #DataFrame.iat, Access a single value for a row/column pair by integer position.
+
+        ListOfColumnDataLists = []
+        for column in range(0, NumberOfColumns):  # Iterate through columns
+            ListOfColumnDataLists.append([])
+        ##########################################################################################################
+
+        ##########################################################################################################
+        for row in range(0, NumberOfRows): # Iterate through rows
+            for column in range(0, NumberOfColumns):  # Iterate through columns
+                cell_value = sheet.iat[row, column]  # Get cell object by row, col
                 ListOfColumnDataLists[column].append(cell_value)
         ##########################################################################################################
 
         ##########################################################################################################
-        for column in range(0, xlrd_sheet.ncols):  # Iterate through columns
+        for column in range(0, NumberOfColumns):  # Iterate through columns
             DataOrderedDict[header_variable_name_list[column]] = ListOfColumnDataLists[column]
         ##########################################################################################################
 
@@ -250,7 +238,7 @@ if __name__ == '__main__':
         if FileName_xls not in FileList_xls: #Make sure we haven't already converted this csv to a xls file.
             print("Converting CSV file to xls file for " + FileName_csv)
             read_file = pandas.read_csv(FileName_csv)
-            read_file.to_excel(FileName_xls, index=None, header=True)
+            read_file.to_excel(FileName_xls, index=None, header=True, engine="xlsxwriter")
         else:
             print("xls file '" + FileName_xls + "' already exists so skipping csv-xls conversion.")
         ################################
