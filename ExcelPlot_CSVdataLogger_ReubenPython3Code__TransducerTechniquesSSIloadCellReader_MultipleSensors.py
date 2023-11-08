@@ -6,9 +6,9 @@ reuben.brewer@gmail.com
 www.reubotics.com
 
 Apache 2 License
-Software Revision E, 05/10/2023
+Software Revision F, 11/08/2023
 
-Verified working on: Python 3.8 for Windows 10 64-bit (haven't tested on Ubuntu, Raspberry Pi, or Mac yet).
+Verified working on: Python 3.8 for Windows 8.1, 10, and 11 64-bit (haven't tested on Ubuntu, Raspberry Pi, or Mac yet).
 '''
 
 __author__ = 'reuben.brewer'
@@ -137,17 +137,21 @@ def CreateExcelChart(FileName_to_save_full_path, DataOrderedDictToWrite):
 
     Time_ExcelColumnLetter = "A"
 
-    Force0_ExcelColumnLetter = "B"
+    SumOfForcesFromAllSensors_ExcelColumnLetter = "B"
 
-    Force1_ExcelColumnLetter = "C"
+    Force0_ExcelColumnLetter = "C"
 
-    Force2_ExcelColumnLetter = "D"
-    
-    SumOfForcesFromAllSensors_ExcelColumnLetter = "E"
+    Force1_ExcelColumnLetter = "D"
 
-    CurrentRaw_ExcelColumnLetter = "F"
+    Force2_ExcelColumnLetter = "E"
 
-    CurrentFiltered_ExcelColumnLetter = "G"
+    SumOfForceDerivativesFromAllSensors_ExcelColumnLetter = "F"
+
+    ForceDerivative0_ExcelColumnLetter = "G"
+
+    ForceDerivative1_ExcelColumnLetter = "H"
+
+    ForceDerivative2_ExcelColumnLetter = "I"
 
     SumOfAllForces_vs_Time_Xaxis_Chart_sheet = workbook.add_chartsheet("SumOfForces_vs_Time")
     SumOfAllForces_vs_Time_Xaxis_Chart = workbook.add_chart({'type': 'scatter'}) #http://xlsxwriter.readthedocs.io/example_chart_scatter.html
@@ -156,23 +160,6 @@ def CreateExcelChart(FileName_to_save_full_path, DataOrderedDictToWrite):
     SumOfAllForces_vs_Time_Xaxis_Chart.set_x_axis({'name': 'Time'})
     SumOfAllForces_vs_Time_Xaxis_Chart.set_y_axis({'name': 'SumOfForcesFromAllSensors (lb)'})
     SumOfAllForces_vs_Time_Xaxis_Chart_sheet.set_chart(SumOfAllForces_vs_Time_Xaxis_Chart)
-
-    Current_vs_Time_Xaxis_Chart_sheet = workbook.add_chartsheet("Current_vs_Time")
-    Current_vs_Time_Xaxis_Chart = workbook.add_chart({'type': 'scatter'}) #http://xlsxwriter.readthedocs.io/example_chart_scatter.html
-    Current_vs_Time_Xaxis_Chart.add_series({'name': 'Current_vs_Time','categories': "=Sheet1!$" + Time_ExcelColumnLetter + "$2:$" + Time_ExcelColumnLetter + "$"+str(NumberOfDataRows+1),'values': "=Sheet1!$" + CurrentFiltered_ExcelColumnLetter + "$2:$" + CurrentFiltered_ExcelColumnLetter + "$" + str(NumberOfDataRows+1)}) #X VALUES FIRST, THEN Y
-    Current_vs_Time_Xaxis_Chart.set_title ({'name': 'Current vs Time'})
-    Current_vs_Time_Xaxis_Chart.set_x_axis({'name': 'Time'})
-    Current_vs_Time_Xaxis_Chart.set_y_axis({'name': 'Current (Amps)'})
-    Current_vs_Time_Xaxis_Chart_sheet.set_chart(Current_vs_Time_Xaxis_Chart)
-
-    ForceAndCurrent_vs_Time_Xaxis_Chart_sheet = workbook.add_chartsheet("ForceAndCurrent_vs_Time")
-    ForceAndCurrent_vs_Time_Xaxis_Chart = workbook.add_chart({'type': 'scatter'}) #http://xlsxwriter.readthedocs.io/example_chart_scatter.html
-    ForceAndCurrent_vs_Time_Xaxis_Chart.add_series({'name': 'Force_vs_Time','categories': "=Sheet1!$" + Time_ExcelColumnLetter + "$2:$" + Time_ExcelColumnLetter + "$"+str(NumberOfDataRows+1),'values': "=Sheet1!$" + SumOfForcesFromAllSensors_ExcelColumnLetter + "$2:$" + SumOfForcesFromAllSensors_ExcelColumnLetter + "$" + str(NumberOfDataRows+1)}) #X VALUES FIRST, THEN Y
-    ForceAndCurrent_vs_Time_Xaxis_Chart.add_series({'name': 'Current_vs_Time','categories': "=Sheet1!$" + Time_ExcelColumnLetter + "$2:$" + Time_ExcelColumnLetter + "$"+str(NumberOfDataRows+1),'values': "=Sheet1!$" + CurrentFiltered_ExcelColumnLetter + "$2:$" + CurrentFiltered_ExcelColumnLetter + "$" + str(NumberOfDataRows+1)}) #X VALUES FIRST, THEN Y
-    ForceAndCurrent_vs_Time_Xaxis_Chart.set_title ({'name': 'Force and Current vs Time'})
-    ForceAndCurrent_vs_Time_Xaxis_Chart.set_x_axis({'name': 'Time'})
-    ForceAndCurrent_vs_Time_Xaxis_Chart.set_y_axis({'name': 'Force (lb) and Current (Amps)'})
-    ForceAndCurrent_vs_Time_Xaxis_Chart_sheet.set_chart(ForceAndCurrent_vs_Time_Xaxis_Chart)
 
     workbook.close()
     time.sleep(0.05)
@@ -219,7 +206,7 @@ if __name__ == '__main__':
             FileDirectory = ARGV_1
 
         else:
-            FileDirectory = os.getcwd()
+            FileDirectory = os.getcwd() + "\\CSVfiles"
 
     except:
         exceptions = sys.exc_info()[0]

@@ -6,9 +6,9 @@ reuben.brewer@gmail.com
 www.reubotics.com
 
 Apache 2 License
-Software Revision E, 05/10/2023
+Software Revision F, 11/08/2023
 
-Verified working on: Python 3.8 for Windows 8.1, 10 64-bit and Raspberry Pi Buster (may work on Mac in non-GUI mode, but haven't tested yet).
+Verified working on: Python 3.8 for Windows 8.1, 10, and 11 64-bit and Raspberry Pi Buster (may work on Mac in non-GUI mode, but haven't tested yet).
 '''
 
 __author__ = 'reuben.brewer'
@@ -390,13 +390,18 @@ if __name__ == '__main__':
 
     global ResetPeak_EventNeedsToBeFiredFlag
     ResetPeak_EventNeedsToBeFiredFlag = 0
-    
+
     global ResetTare_EventNeedsToBeFiredFlag
     ResetTare_EventNeedsToBeFiredFlag = 0
-    
+
     global ResetLatchedAlarms_EventNeedsToBeFiredFlag
     ResetLatchedAlarms_EventNeedsToBeFiredFlag = 0
-    
+
+    global SumOfForcesFromAllSensors_lb
+    SumOfForcesFromAllSensors_lb = 0
+
+    global SumOfForceDerivativesFromAllSensors_lb
+    SumOfForceDerivativesFromAllSensors_lb = 0
     #################################################
     #################################################
 
@@ -409,7 +414,8 @@ if __name__ == '__main__':
     TransducerTechniquesSSIloadCellReader_OPEN_FLAG = 0
 
     global TransducerTechniquesSSIloadCellReader_DevicesToReadSerialNumbersList
-    TransducerTechniquesSSIloadCellReader_DevicesToReadSerialNumbersList = ["AH02WWUN", "AH02WWDY", "AH02WWU9"]
+    #TransducerTechniquesSSIloadCellReader_DevicesToReadSerialNumbersList = ["AH02WWUN", "AH02WWDY", "AH02WWU9"]
+    TransducerTechniquesSSIloadCellReader_DevicesToReadSerialNumbersList = ["AH02WWDY", "AH02WWU9"]
 
     global TransducerTechniquesSSIloadCellReader_NumberOfSensors
     TransducerTechniquesSSIloadCellReader_NumberOfSensors = len(TransducerTechniquesSSIloadCellReader_DevicesToReadSerialNumbersList)
@@ -554,6 +560,7 @@ if __name__ == '__main__':
 
     #################################################
     #################################################
+    #################################################
     global CSVdataLogger_ReubenPython3ClassObject_GUIparametersDict
     CSVdataLogger_ReubenPython3ClassObject_GUIparametersDict = dict([("USE_GUI_FLAG", USE_GUI_FLAG and SHOW_IN_GUI_CSVdataLogger_FLAG),
                                     ("root", Tab_CSVdataLogger),
@@ -567,20 +574,41 @@ if __name__ == '__main__':
                                     ("GUI_ROWSPAN", GUI_ROWSPAN_CSVdataLogger),
                                     ("GUI_COLUMNSPAN", GUI_COLUMNSPAN_CSVdataLogger)])
 
+    #################################################
+    #################################################
+
+    #################################################
+    CSVdataLogger_ReubenPython3ClassObject_setup_dict_VariableNamesForHeaderList = ["Time (S)",
+                                                                                    "SumOfForcesFromAllSensors (lb)"]
+    #################################################
+
+    #################################################
+    for Index in range(0, TransducerTechniquesSSIloadCellReader_NumberOfSensors):
+        CSVdataLogger_ReubenPython3ClassObject_setup_dict_VariableNamesForHeaderList.append("Force " + str(Index) + " (lb)")
+    #################################################
+
+    #################################################
+    CSVdataLogger_ReubenPython3ClassObject_setup_dict_VariableNamesForHeaderList.append("SumOfForceDerivativesFromAllSensors (lb/s)")
+    #################################################
+
+    #################################################
+    for Index in range(0, TransducerTechniquesSSIloadCellReader_NumberOfSensors):
+        CSVdataLogger_ReubenPython3ClassObject_setup_dict_VariableNamesForHeaderList.append("ForceDerivative " + str(Index) + " (lb/s)")
+    #################################################
+
+    #################################################
+    print("CSVdataLogger_ReubenPython3ClassObject_setup_dict_VariableNamesForHeaderList: " + str(CSVdataLogger_ReubenPython3ClassObject_setup_dict_VariableNamesForHeaderList))
+    #################################################
+
+    #################################################
+    #################################################
+
     global CSVdataLogger_ReubenPython3ClassObject_setup_dict
     CSVdataLogger_ReubenPython3ClassObject_setup_dict = dict([("GUIparametersDict", CSVdataLogger_ReubenPython3ClassObject_GUIparametersDict),
                                                                                 ("NameToDisplay_UserSet", "CSVdataLogger"),
-                                                                                ("CSVfile_DirectoryPath", "G:\\My Drive\\CodeReuben\\TransducerTechniquesSSIloadCellReader_ReubenPython3Class\\CSVfiles"),
-                                                                                ("FileNamePrefix", "Drill_"),
-                                                                                ("VariableNamesForHeaderList", ["Time (S)",
-                                                                                                                "Force 0 (lb)",
-                                                                                                                "Force 1 (lb)",
-                                                                                                                "Force 2 (lb)",
-                                                                                                                "SumOfForcesFromAllSensors (lb)",
-                                                                                                                "ForceDerivative 0 (lb/s)",
-                                                                                                                "ForceDerivative 1 (lb/s)",
-                                                                                                                "ForceDerivative 2 (lb/s)",
-                                                                                                                "SumOfForceDerivativesFromAllSensors (lb/s)"]),
+                                                                                ("CSVfile_DirectoryPath", os.getcwd() + "\\CSVfiles"),
+                                                                                ("FileNamePrefix", "CSV_file_"),
+                                                                                ("VariableNamesForHeaderList", CSVdataLogger_ReubenPython3ClassObject_setup_dict_VariableNamesForHeaderList),
                                                                                 ("MainThread_TimeToSleepEachLoop", 0.002),
                                                                                 ("SaveOnStartupFlag", 0)])
 
@@ -593,6 +621,7 @@ if __name__ == '__main__':
             exceptions = sys.exc_info()[0]
             print("CSVdataLogger_ReubenPython3ClassObject __init__: Exceptions: %s" % exceptions)
             traceback.print_exc()
+    #################################################
     #################################################
     #################################################
 
@@ -749,7 +778,7 @@ if __name__ == '__main__':
         ################################################### SET's
         ###################################################
         if TransducerTechniquesSSIloadCellReader_OPEN_FLAG == 1:
-            
+
             ##########################################################################################################
             if ResetPeak_EventNeedsToBeFiredFlag == 1:
 
@@ -782,26 +811,34 @@ if __name__ == '__main__':
 
         #################################################### SET's
         ####################################################
+        ####################################################
         if TransducerTechniquesSSIloadCellReader_OPEN_FLAG == 1 and CSVdataLogger_OPEN_FLAG == 1:
 
             ####################################################
+            ####################################################
             ListToWrite = []
             ListToWrite.append(CurrentTime_MainLoopThread)
+            ListToWrite.append(SumOfForcesFromAllSensors_lb)
 
+            ####################################################
             for Index in range(0, TransducerTechniquesSSIloadCellReader_NumberOfSensors):
                 if "Time" in TransducerTechniquesSSIloadCellReader_MostRecentDict_ListOfDicts[Index]:
                     ListToWrite.append(TransducerTechniquesSSIloadCellReader_MostRecentDict_ListOfDicts[Index]["MeasurementForce_DictOfConvertedValues"]["lb"])
+            ####################################################
 
-            ListToWrite.append(SumOfForcesFromAllSensors_lb)
+            ListToWrite.append(SumOfForceDerivativesFromAllSensors_lbPerSec)
 
+            ####################################################
             for Index in range(0, TransducerTechniquesSSIloadCellReader_NumberOfSensors):
                 if "Time" in TransducerTechniquesSSIloadCellReader_MostRecentDict_ListOfDicts[Index]:
                     ListToWrite.append(TransducerTechniquesSSIloadCellReader_MostRecentDict_ListOfDicts[Index]["MeasurementForceDerivative_DictOfConvertedValues"]["lb"])
+            ####################################################
 
-            ListToWrite.append(SumOfForceDerivativesFromAllSensors_lbPerSec)
+            ####################################################
             ####################################################
 
             CSVdataLogger_ReubenPython3ClassObject.AddDataToCSVfile_ExternalFunctionCall(ListToWrite)
+        ####################################################
         ####################################################
         ####################################################
 

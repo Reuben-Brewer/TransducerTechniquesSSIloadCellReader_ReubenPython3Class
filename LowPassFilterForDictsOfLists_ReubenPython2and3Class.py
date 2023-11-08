@@ -6,7 +6,7 @@ reuben.brewer@gmail.com
 www.reubotics.com
 
 Apache 2 License
-Software Revision B, 05/10/2023
+Software Revision C, 07/18/2023
 
 Verified working on: Python 3.8 for Windows 10 64-bit, Ubuntu 20.04, and Raspberry Pi Buster (no Mac testing yet).
 '''
@@ -156,11 +156,13 @@ class LowPassFilterForDictsOfLists_ReubenPython2and3Class():
     ##########################################################################################################
     def AddDictOfVariableFilterSettingsFromExternalProgram(self, NewDictOfVariableFilterSettings):
 
+        self.DictOfVariableFilterSettings = dict()
+
         for VariableNameString in NewDictOfVariableFilterSettings:
             if VariableNameString not in self.DictOfVariableFilterSettings:
                 self.DictOfVariableFilterSettings[VariableNameString] = deepcopy(NewDictOfVariableFilterSettings[VariableNameString])
 
-        #print("AddDictOfVariableFilterSettingsFromExternalProgram: " + str(self.DictOfVariableFilterSettings))
+        print("AddDictOfVariableFilterSettingsFromExternalProgram: " + str(self.DictOfVariableFilterSettings))
     ##########################################################################################################
     ##########################################################################################################
 

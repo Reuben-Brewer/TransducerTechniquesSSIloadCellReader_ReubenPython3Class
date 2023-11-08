@@ -6,9 +6,9 @@ reuben.brewer@gmail.com
 www.reubotics.com
 
 Apache 2 License
-Software Revision E, 05/10/2023
+Software Revision F, 11/08/2023
 
-Verified working on: Python 3.8 for Windows 8.1, 10 64-bit and Raspberry Pi Buster (may work on Mac in non-GUI mode, but haven't tested yet).
+Verified working on: Python 3.8 for Windows 8.1, 10, and 11 64-bit and Raspberry Pi Buster (may work on Mac in non-GUI mode, but haven't tested yet).
 '''
 
 __author__ = 'reuben.brewer'
@@ -841,7 +841,7 @@ class TransducerTechniquesSSIloadCellReader_ReubenPython3Class(Frame): #Subclass
         except:
             exceptions = sys.exc_info()[0]
             print("ConvertBytesObjectToString, Exceptions: %s" % exceptions)
-            traceback.print_exc()
+            #traceback.print_exc()
             return ""
 
     ##########################################################################################################
