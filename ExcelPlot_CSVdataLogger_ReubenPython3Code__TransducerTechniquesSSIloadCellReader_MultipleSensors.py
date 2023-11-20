@@ -6,7 +6,7 @@ reuben.brewer@gmail.com
 www.reubotics.com
 
 Apache 2 License
-Software Revision F, 11/08/2023
+Software Revision G, 11/19/2023
 
 Verified working on: Python 3.8 for Windows 8.1, 10, and 11 64-bit (haven't tested on Ubuntu, Raspberry Pi, or Mac yet).
 '''
@@ -82,7 +82,11 @@ def OpenXLSsndCopyDataToLists(FileName_full_path):
         for row in range(0, NumberOfRows): # Iterate through rows
             for column in range(0, NumberOfColumns):  # Iterate through columns
                 cell_value = sheet.iat[row, column]  # Get cell object by row, col
-                ListOfColumnDataLists[column].append(cell_value)
+
+                try:
+                    ListOfColumnDataLists[column].append(float(cell_value))
+                except:
+                    ListOfColumnDataLists[column].append(str(cell_value))
         ##########################################################################################################
 
         ##########################################################################################################
