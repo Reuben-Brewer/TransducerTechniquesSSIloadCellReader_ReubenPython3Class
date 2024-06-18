@@ -819,6 +819,7 @@ class MyPlotterPureTkinterStandAloneProcess_ReubenPython2and3Class(Frame): #Subc
     def ExternalAddPointOrListOfPointsToPlot(self, CurveName, x, y):
 
         if self.IsInputList(CurveName) == 1:
+
             #####
             if len(CurveName) != len(x) or len(CurveName) != len(y):
                 print("ExternalAddPointOrListOfPointsToPlot: ERROR, length of CurveName (" +

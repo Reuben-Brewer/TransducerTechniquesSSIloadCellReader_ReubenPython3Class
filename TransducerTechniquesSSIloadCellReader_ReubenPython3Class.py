@@ -6,7 +6,7 @@ reuben.brewer@gmail.com
 www.reubotics.com
 
 Apache 2 License
-Software Revision G, 11/19/2023
+Software Revision H, 06/17/2024
 
 Verified working on: Python 3.8 for Windows 8.1, 10, and 11 64-bit and Raspberry Pi Buster (may work on Mac in non-GUI mode, but haven't tested yet).
 '''
@@ -98,8 +98,8 @@ class TransducerTechniquesSSIloadCellReader_ReubenPython3Class(Frame): #Subclass
         self.SerialParity = serial.PARITY_NONE
         self.SerialStopBits = serial.STOPBITS_ONE
         self.SerialByteSize = serial.EIGHTBITS
-        self.SerialRxBufferSize = 100
-        self.SerialTxBufferSize = 100
+        self.SerialRxBufferSize = round(35*1.1) #35 bytes per message
+        self.SerialTxBufferSize = round(35*1.1) #35 bytes per message
         self.SerialPortNameCorrespondingToCorrectSerialNumber = "default"
         self.SerialRxThread_still_running_flag = 0
         self.SerialTxThread_still_running_flag = 0
@@ -1225,7 +1225,11 @@ class TransducerTechniquesSSIloadCellReader_ReubenPython3Class(Frame): #Subclass
 
                             ##########################################
                             if self.PrintAllReceivedSerialMessageForDebuggingFlag == 1:
-                                print("RxMessage: " + str(RxMessage) + ", Type = " + str(type(RxMessageStringList)) + ", Len = " + str(len(RxMessageStringList)) + ", Message = " + str(RxMessageStringList))
+                                print("RxMessage: " + str(RxMessage) +
+                                      ", Type = " + str(type(RxMessageStringList)) +
+                                      ", ListLen = " + str(len(RxMessageStringList)) +
+                                      ", ByteLen = " + str(len(RxMessage)) +
+                                      ", Message = " + str(RxMessageStringList))
                             ##########################################
 
                             ##########################################
