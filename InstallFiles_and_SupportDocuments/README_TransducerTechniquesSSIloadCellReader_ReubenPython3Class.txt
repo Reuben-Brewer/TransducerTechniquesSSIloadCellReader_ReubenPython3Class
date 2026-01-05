@@ -14,15 +14,15 @@ www.reubotics.com
 
 Apache 2 License
 
-Software Revision H, 06/17/2024
+Software Revision I, 12/29/2025
 
 Verified working on:
 
-Python 3.8.
+Python 3.11/12/13.
 
-Windows 8.1, 10, 11 64-bit
+Windows 10/11 64-bit
 
-Raspberry Pi Buster
+Raspberry Pi Bookworm
 
 (may work on Mac in non-GUI mode, but haven't tested yet)
 
@@ -104,13 +104,13 @@ Loc 4: 0 0 0 0 0
 
 ############
 
-test_program_for_TransducerTechniquesSSIloadCellReader_ReubenPython3Class_MultipleSensors.py, ListOfModuleDependencies: ['CSVdataLogger_ReubenPython3Class', 'MyPlotterPureTkinterStandAloneProcess_ReubenPython2and3Class', 'MyPrint_ReubenPython2and3Class', 'TransducerTechniquesSSIloadCellReader_ReubenPython3Class']
+test_program_for_TransducerTechniquesSSIloadCellReader_ReubenPython3Class_MultipleSensors.py, ListOfModuleDependencies: ['CSVdataLogger_ReubenPython3Class', 'keyboard', 'MyPlotterPureTkinterStandAloneProcess_ReubenPython2and3Class', 'MyPrint_ReubenPython2and3Class', 'ReubenGithubCodeModulePaths', 'TransducerTechniquesSSIloadCellReader_ReubenPython3Class']
 
 test_program_for_TransducerTechniquesSSIloadCellReader_ReubenPython3Class_MultipleSensors.py, ListOfModuleDependencies_TestProgram: []
 
-test_program_for_TransducerTechniquesSSIloadCellReader_ReubenPython3Class_MultipleSensors.py, ListOfModuleDependencies_NestedLayers: ['ftd2xx', 'future.builtins', 'LowPassFilter_ReubenPython2and3Class', 'LowPassFilterForDictsOfLists_ReubenPython2and3Class', 'numpy', 'pexpect', 'psutil', 'serial', 'serial.tools']
+test_program_for_TransducerTechniquesSSIloadCellReader_ReubenPython3Class_MultipleSensors.py, ListOfModuleDependencies_NestedLayers: ['EntryListWithBlinking_ReubenPython2and3Class', 'ftd2xx', 'GetCPUandMemoryUsageOfProcessByPID_ReubenPython3Class', 'LowPassFilterForDictsOfLists_ReubenPython2and3Class', 'numpy', 'pexpect', 'psutil', 'pyautogui', 'ReubenGithubCodeModulePaths', 'serial', 'serial.tools']
 
-test_program_for_TransducerTechniquesSSIloadCellReader_ReubenPython3Class_MultipleSensors.py, ListOfModuleDependencies_All:['CSVdataLogger_ReubenPython3Class', 'ftd2xx', 'future.builtins', 'LowPassFilter_ReubenPython2and3Class', 'LowPassFilterForDictsOfLists_ReubenPython2and3Class', 'MyPlotterPureTkinterStandAloneProcess_ReubenPython2and3Class', 'MyPrint_ReubenPython2and3Class', 'numpy', 'pexpect', 'psutil', 'serial', 'serial.tools', 'TransducerTechniquesSSIloadCellReader_ReubenPython3Class']
+test_program_for_TransducerTechniquesSSIloadCellReader_ReubenPython3Class_MultipleSensors.py, ListOfModuleDependencies_All:['CSVdataLogger_ReubenPython3Class', 'EntryListWithBlinking_ReubenPython2and3Class', 'ftd2xx', 'GetCPUandMemoryUsageOfProcessByPID_ReubenPython3Class', 'keyboard', 'LowPassFilterForDictsOfLists_ReubenPython2and3Class', 'MyPlotterPureTkinterStandAloneProcess_ReubenPython2and3Class', 'MyPrint_ReubenPython2and3Class', 'numpy', 'pexpect', 'psutil', 'pyautogui', 'ReubenGithubCodeModulePaths', 'serial', 'serial.tools', 'TransducerTechniquesSSIloadCellReader_ReubenPython3Class']
 
 For test_program_for_TransducerTechniquesSSIloadCellReader_ReubenPython3Class_MultipleSensors.py:
 
@@ -134,13 +134,13 @@ ExcelPlot_CSVdataLogger_ReubenPython3Code__TransducerTechniquesSSIloadCellReader
 
 For ExcelPlot_CSVdataLogger_ReubenPython3Code__TransducerTechniquesSSIloadCellReader_MultipleSensors.py:
 
-pip install pywin32         #version 305.1 11/8/23
+pip install pywin32=311
 
-pip install xlsxwriter      #version 3.1.9 as of 11/08/2023. Might have to manually delete older version from /lib/site-packages if it was distutils-managed. Works overall, but the function ".set_size" doesn't do anything.
+pip install xlsxwriter==3.2.9 #Might have to manually delete older version from /lib/site-packages if it was distutils-managed. Works overall, but the function ".set_size" doesn't do anything.
 
-pip install xlutils         #version 2.0.0 as of 11/8/23
+pip install xlutils==2.0.0
 
-pip install xlwt            #version 1.3.0 as of 11/8/23
+pip install xlwt==1.3.0
 
 ############
 
